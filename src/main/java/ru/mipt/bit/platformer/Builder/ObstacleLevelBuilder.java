@@ -3,7 +3,9 @@ package ru.mipt.bit.platformer.Builder;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.Obstacles.IObstacleInLevel;
 import ru.mipt.bit.platformer.Obstacles.ObstacleInLevel;
-import ru.mipt.bit.platformer.Entities.TextureObstacle;
+import ru.mipt.bit.platformer.Entities.ObstacleEntity;
+import ru.mipt.bit.platformer.Render.Visualisation;
+import ru.mipt.bit.platformer.util.Conversion;
 
 public class ObstacleLevelBuilder implements IObstacleLevelBuilder {
     private IObstacleInLevel obstacle;
@@ -21,8 +23,10 @@ public class ObstacleLevelBuilder implements IObstacleLevelBuilder {
 
     @Override
     public IObstacleLevelBuilder addBush(GridPoint2 bushPosition) {
-        TextureObstacle textureObstacle = new TextureObstacle("images/greenTree.png", bushPosition);
-        this.obstacle.addObstacle(textureObstacle);
+        Visualisation textureObstacle = new Visualisation("images/greenTree.png");
+        Conversion treeConversion = new Conversion(bushPosition, 0f);
+        ObstacleEntity obstacleEntity = new ObstacleEntity(treeConversion, textureObstacle);
+        this.obstacle.addObstacle(obstacleEntity);
         return this;
     }
 

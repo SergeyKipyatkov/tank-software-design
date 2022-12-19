@@ -12,10 +12,12 @@ import ru.mipt.bit.platformer.Builder.IObstacleLevelBuilder;
 import ru.mipt.bit.platformer.Builder.ObstacleLevelBuilder;
 import ru.mipt.bit.platformer.Controllers.IControl;
 import ru.mipt.bit.platformer.Controllers.TankControl;
-import ru.mipt.bit.platformer.Entities.Tank;
-import ru.mipt.bit.platformer.Entities.TextureObstacle;
+import ru.mipt.bit.platformer.Entities.*;
 import ru.mipt.bit.platformer.Obstacles.IObstacleInLevel;
 import ru.mipt.bit.platformer.Render.LevelRender;
+import ru.mipt.bit.platformer.Render.Visualisation;
+import ru.mipt.bit.platformer.util.Conversion;
+import ru.mipt.bit.platformer.util.Direction;
 
 import java.util.Random;
 
@@ -28,7 +30,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private static final float MOVEMENT_SPEED = 0.4f;
     private Batch batch;
     private final LevelRender levelRender = LevelRender.getInstance();
-    private Tank tank;
+    private TankEntity tank;
+    private IControl controller;
     private IObstacleInLevel obstacleInLevel;
     @Override
     public void create() {
@@ -38,29 +41,60 @@ public class GameDesktopLauncher implements ApplicationListener {
         levelRender.setLayerRenderer(batch);
         levelRender.setLayerMovement("Ground", Interpolation.smooth);
 
-        obstacleInLevel = createNObstacles(5);
-        levelRender.setLet(obstacleInLevel);
+        IObstacleLevelBuilder obstacleBuilder = new ObstacleLevelBuilder();
+        obstacleBuilder.addBush(new GridPoint2(3, 1));
+        obstacleBuilder.addBush(new GridPoint2(5, 4));
+        obstacleBuilder.addBush(new GridPoint2(2, 6));
+        obstacleInLevel = obstacleBuilder.createBush();
 
-        IControl tankControl = new TankControl();
-        tank = new Tank("images/tank_blue.png", new GridPoint2(1, 1), 0f, tankControl);
+        levelRender.setObstacle(obstacleInLevel);
+
+        Visualisation tankTexture = new Visualisation("images/tank_blue.png");
+        Conversion tankTransform = new Conversion(new GridPoint2(1, 1), 0f);
+        tank = new TankEntity(tankTransform, tankTexture);
+        controller = new TankControl();
     }
 
     @Override
     public void render() {
+        float timePeriod = Gdx.graphics.getDeltaTime();
+
         clearTheScreen();
 
-        tank.getInValues(Gdx.input, obstacleInLevel);
-        calculatePlayerInterpolatedCoordinates();
+        Direction direction = controller.getDirection(Gdx.input);
+
+        if(direction != null) {
+            calculatePosition(tank, direction);
+        }
+
+        levelRender.mapMovements.get("Ground").moveRectangleBetweenTileCenters(tank.texture.getRectangle(), tank);
+
+        interpolatedCoordinates(timePeriod);
 
         levelRender.render();
 
         batch.begin();
 
-        tank.visualisation.draw(batch, tank.entity.rotation);
+        draw(tank.texture, tank.conversion);
 
-        for (TextureObstacle texture: obstacleInLevel.getObstacleEntities()) texture.obstacleVisualisation.draw(batch);
+        for (GameObjectEntity entity : obstacleInLevel.getObstacleEntities()) draw(entity.texture, entity.conversion);
 
         batch.end();
+    }
+
+    private void calculatePosition(IGameMovingObject movingObject, Direction direction) {
+        if (!isEqual(movingObject.getMovementProgress(), 1f)) return;
+
+        Conversion newConversion = direction.moveInCurrentDirection(movingObject.getConversion());
+        boolean isObstaclePosition = obstacleInLevel.getObstaclePositions().contains(newConversion.getPosition());
+
+        if (!isObstaclePosition) {
+            movingObject.setDestinationConversion(newConversion);
+        }
+    }
+
+    private void draw(Visualisation graphic, Conversion transform) {
+        drawTextureRegionUnscaled(batch, graphic.getTextureRegion(), graphic.getRectangle(), transform.getRotation());
     }
 
     private static void clearTheScreen() {
@@ -77,17 +111,11 @@ public class GameDesktopLauncher implements ApplicationListener {
         return obstacleBuilder.createBush();
     }
 
-    private void calculatePlayerInterpolatedCoordinates() {
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
-        levelRender.mapMovements.get("Ground").moveRectangleBetweenTileCenters(
-                tank.visualisation.rectangle,
-                tank.entity.position,
-                tank.entity.destinationPosition,
-                tank.entity.movementProgress);
-        tank.entity.movementProgress = continueProgress(tank.entity.movementProgress, deltaTime, MOVEMENT_SPEED);
-        if (isEqual(tank.entity.movementProgress, 1f)) {
-            tank.entity.position.set(tank.entity.destinationPosition);
+    private void interpolatedCoordinates(float timePeriod) {
+        float newProgress = continueProgress(tank.getMovementProgress(), timePeriod, MOVEMENT_SPEED);
+        tank.setMovementProgress(newProgress);
+        if (isEqual(tank.getMovementProgress(), 1f)) {
+            tank.setDestinationPositionAsPosition();
         }
     }
 
@@ -108,11 +136,11 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void dispose() {
-        levelRender.tiledMap.dispose();
-        tank.visualisation.texture.dispose();
-        for (TextureObstacle obstacle: obstacleInLevel.getObstacleEntities()) {
-            obstacle.obstacleVisualisation.texture.dispose();
+        for (GameObjectEntity entity : obstacleInLevel.getObstacleEntities()) {
+            entity.texture.getTexture().dispose();
         }
+        tank.texture.getTexture().dispose();
+        levelRender.tiledMap.dispose();
         batch.dispose();
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import ru.mipt.bit.platformer.Entities.IGameMovingObject;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.moveRectangleAtTileCenter;
 
@@ -18,18 +19,20 @@ public class TileMovement {
         this.interpolation = interpolation;
     }
 
-    public Rectangle moveRectangleBetweenTileCenters(Rectangle rectangle, GridPoint2 fromTileCoordinates, GridPoint2 toTileCoordinates, float progress) {
-        float intermediateBottomLeftX = interpolation.apply(calculateRectangleCoordinates(rectangle, fromTileCoordinates).x,
-                calculateRectangleCoordinates(rectangle, toTileCoordinates).x, progress);
-        float intermediateBottomLeftY = interpolation.apply(calculateRectangleCoordinates(rectangle, fromTileCoordinates).y,
-                calculateRectangleCoordinates(rectangle, toTileCoordinates).y, progress);
+    public Rectangle moveRectangleBetweenTileCenters(Rectangle rectangle, IGameMovingObject entity) {
+        moveRectangleAtTileCenter(tileLayer, rectangle, entity.getConversion().getPosition());
+        float fromTileBottomLeftX = rectangle.x;
+        float fromTileBottomLeftY = rectangle.y;
+
+        moveRectangleAtTileCenter(tileLayer, rectangle, entity.getDestinationConversion().getPosition());
+        float toTileBottomLeftX = rectangle.x;
+        float toTileBottomLeftY = rectangle.y;
+
+        float intermediateBottomLeftX = interpolation.apply(fromTileBottomLeftX, toTileBottomLeftX, entity.getMovementProgress());
+        float intermediateBottomLeftY = interpolation.apply(fromTileBottomLeftY, toTileBottomLeftY, entity.getMovementProgress());
 
         return rectangle
                 .setX(intermediateBottomLeftX)
                 .setY(intermediateBottomLeftY);
-    }
-    private Vector2 calculateRectangleCoordinates(Rectangle rectangle, GridPoint2 tileCoordinates){
-        moveRectangleAtTileCenter(tileLayer, rectangle, tileCoordinates);
-        return new Vector2(rectangle.x, rectangle.y);
     }
 }

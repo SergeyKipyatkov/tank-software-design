@@ -1,17 +1,47 @@
 package ru.mipt.bit.platformer.Entities;
 
-import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.Entities.GameObjectEntity;
+import ru.mipt.bit.platformer.Render.Visualisation;
+import ru.mipt.bit.platformer.util.Conversion;
 
-import static com.badlogic.gdx.math.MathUtils.isEqual;
 
-public class TankEntity extends GameObjectEntity {
-    public GridPoint2 destinationPosition;
-    public float movementProgress;
+public class TankEntity extends GameObjectEntity implements IGameMovingObject {
+    private float movementProgress;
+    private Conversion destinationConversion;
 
-    public TankEntity(GridPoint2 position, float rotation) {
-        super(position, rotation);
+    public TankEntity(Conversion conversion, Visualisation texture) {
+        super(conversion, texture);
         this.movementProgress = 0f;
-        this.destinationPosition = this.position;
+        this.destinationConversion = conversion;
+    }
+
+    public void setDestinationConversion(Conversion conversion) {
+        this.destinationConversion = conversion;
+        this.conversion.setRotation(conversion.getRotation());
+        this.movementProgress = 0f;
+    }
+
+    public void setDestinationPositionAsPosition(){
+        this.conversion.copyFromConversion(this.destinationConversion);
+    }
+
+    @Override
+    public Conversion getConversion() {
+        return this.conversion;
+    }
+
+    @Override
+    public Conversion getDestinationConversion() {
+        return destinationConversion;
+    }
+
+    @Override
+    public float getMovementProgress() {
+        return movementProgress;
+    }
+
+    public void setMovementProgress(float movementProgress) {
+        if(movementProgress > 1f || movementProgress < 0f)
+            throw new IllegalArgumentException("You need to enter a value from 0 to 1: " + movementProgress);
+        this.movementProgress = movementProgress;
     }
 }

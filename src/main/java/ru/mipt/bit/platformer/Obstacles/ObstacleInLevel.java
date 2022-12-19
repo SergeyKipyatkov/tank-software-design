@@ -1,12 +1,12 @@
 package ru.mipt.bit.platformer.Obstacles;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.Entities.TextureObstacle;
+import ru.mipt.bit.platformer.Entities.GameObjectEntity;
 
 import java.util.HashSet;
 
 public class ObstacleInLevel implements IObstacleInLevel {
-    private final HashSet<TextureObstacle> obstacleEntities;
+    private final HashSet<GameObjectEntity> obstacleEntities;
     private final HashSet<GridPoint2> obstaclePositions;
 
     public ObstacleInLevel(){
@@ -14,13 +14,13 @@ public class ObstacleInLevel implements IObstacleInLevel {
         this.obstaclePositions = new HashSet<>();
     }
 
-    public void addObstacle(TextureObstacle entity) {
-        obstaclePositions.add(entity.position);
+    public void addObstacle(GameObjectEntity entity) {
+        obstaclePositions.add(entity.conversion.getPosition());
         obstacleEntities.add(entity);
     }
 
-    public void removeObstacle(TextureObstacle entity) {
-        obstaclePositions.remove(entity.position);
+    public void removeObstacle(GameObjectEntity entity) {
+        obstaclePositions.remove(entity.conversion.getPosition());
         obstacleEntities.remove(entity);
     }
 
@@ -28,7 +28,7 @@ public class ObstacleInLevel implements IObstacleInLevel {
         return this.obstaclePositions;
     }
 
-    public HashSet<TextureObstacle> getObstacleEntities(){
+    public HashSet<GameObjectEntity> getObstacleEntities(){
         return this.obstacleEntities;
     }
 }

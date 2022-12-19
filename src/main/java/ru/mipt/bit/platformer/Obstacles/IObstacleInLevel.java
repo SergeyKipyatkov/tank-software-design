@@ -1,14 +1,16 @@
 package ru.mipt.bit.platformer.Obstacles;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.Entities.TextureObstacle;
+import ru.mipt.bit.platformer.Entities.GameObjectEntity;
+import ru.mipt.bit.platformer.Entities.ObstacleEntity;
 
 import java.util.HashSet;
 
 public interface IObstacleInLevel {
-    void addObstacle(TextureObstacle obstacle);
-    void removeObstacle(TextureObstacle obstacle);
+    void addObstacle(GameObjectEntity obstacle);
+    void removeObstacle(GameObjectEntity obstacle);
 
     HashSet<GridPoint2> getObstaclePositions();
-    HashSet<TextureObstacle> getObstacleEntities();
+    HashSet<GameObjectEntity> getObstacleEntities();
 }
