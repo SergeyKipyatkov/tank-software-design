@@ -23,7 +23,6 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
-
     private static final float MOVEMENT_SPEED = 0.4f;
 
     private Batch batch;
@@ -32,20 +31,30 @@ public class GameDesktopLauncher implements ApplicationListener {
     private MapRenderer levelRenderer;
     private TileMovement tileMovement;
 
+    // Текстуры танка
     private Texture blueTankTexture;
     private TextureRegion playerGraphics;
+
+    // Положение танка
     private Rectangle playerRectangle;
     // player current position coordinates on level 10x8 grid (e.g. x=0, y=1)
     private GridPoint2 playerCoordinates;
+
+
     // which tile the player want to go next
     private GridPoint2 playerDestinationCoordinates;
     private float playerMovementProgress = 1f;
     private float playerRotation;
 
+    // Текстуры дерева
     private Texture greenTreeTexture;
     private TextureRegion treeObstacleGraphics;
-    private GridPoint2 treeObstacleCoordinates = new GridPoint2();
     private Rectangle treeObstacleRectangle = new Rectangle();
+
+
+    // положение дерева
+    private GridPoint2 treeObstacleCoordinates = new GridPoint2();
+
 
     @Override
     public void create() {
