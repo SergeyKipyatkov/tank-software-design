@@ -2,6 +2,7 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import ru.mipt.bit.platformer.util.TileMovement;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
@@ -19,7 +20,7 @@ public class Controlling {
         this.movementProgress = 1f;
     }
 
-    public void Control(Input input) {
+    public void Control(Input input, TileMovement tileMovement) {
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (isEqual(movementProgress, 1f)) {
             if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
@@ -35,6 +36,7 @@ public class Controlling {
                 this.tank.Move(Direction.RIGHT, this.movementProgress);
             }
         }
+        tileMovement.moveRectangleBetweenTileCenters(tank.graphic.getRectangle(), tank.getLocation().getPosition(), tank.destinationPosition, movementProgress);
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);

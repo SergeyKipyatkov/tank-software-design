@@ -36,9 +36,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         cleanScreen();
 
         playerControl = new Controlling(player);
-        playerControl.Control(Gdx.input);
-
-        field.getTileMovement().moveRectangleBetweenTileCenters(playerControl);
+        playerControl.Control(Gdx.input, field.getTileMovement());
 
         field.getLevelRenderer().render();
 
