@@ -23,16 +23,16 @@ public class Controlling {
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (isEqual(movementProgress, 1f)) {
             if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-                movementProgress = this.tank.Move(Direction.UP);
+                this.tank.Move(Direction.UP, this.movementProgress);
             }
             if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-                movementProgress = this.tank.Move(Direction.LEFT);
+                this.tank.Move(Direction.LEFT, this.movementProgress);
             }
             if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-                movementProgress = this.tank.Move(Direction.DOWN);
+                this.tank.Move(Direction.DOWN, this.movementProgress);
             }
             if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-                movementProgress = this.tank.Move(Direction.RIGHT);
+                this.tank.Move(Direction.RIGHT, this.movementProgress);
             }
         }
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
