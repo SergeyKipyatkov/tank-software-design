@@ -14,6 +14,7 @@ public class Tank extends GameObject {
     public float Move(Direction direction){
         if (Location.IsPositionFree(this.location.calculatePosition(direction))){
             this.destinationPosition.add(direction.getPosition());
+            this.location.setRotation(direction.getLocation().getRotation());
         }
         return 0f;
     }

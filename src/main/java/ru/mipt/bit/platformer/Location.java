@@ -33,6 +33,10 @@ public class Location {
         return rotation;
     }
 
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
     public GridPoint2 calculatePosition(Direction direction){
         return new GridPoint2(this.position.x + direction.getLocation().position.x,
                 this.position.y + direction.getLocation().position.y);
