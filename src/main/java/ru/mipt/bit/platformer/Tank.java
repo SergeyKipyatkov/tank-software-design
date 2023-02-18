@@ -3,8 +3,6 @@ package ru.mipt.bit.platformer;
 import com.badlogic.gdx.math.GridPoint2;
 
 public class Tank extends GameObject {
-    public Location location;
-    public ObjectGraphic graphic;
     public GridPoint2 destinationPosition;
 
     public Tank(GridPoint2 position, float rotation, String texturePath){

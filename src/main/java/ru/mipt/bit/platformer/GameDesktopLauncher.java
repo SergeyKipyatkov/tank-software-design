@@ -12,7 +12,6 @@ import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
-    private static final float MOVEMENT_SPEED = 0.4f;
     private Field field;
     private Batch batch;
 
@@ -38,6 +37,8 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         playerControl = new Controlling(player);
         playerControl.Control(Gdx.input);
+
+        field.getTileMovement().moveRectangleBetweenTileCenters(playerControl);
 
         field.getLevelRenderer().render();
 

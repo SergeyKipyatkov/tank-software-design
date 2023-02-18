@@ -1,11 +1,15 @@
 package ru.mipt.bit.platformer;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.util.TileMovement;
 
 import static ru.mipt.bit.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
@@ -30,6 +34,10 @@ public class Field {
 
     public MapRenderer getLevelRenderer() {
         return levelRenderer;
+    }
+
+    public TileMovement getTileMovement() {
+        return tileMovement;
     }
 
     public TiledMapTileLayer getGroundLayer() {

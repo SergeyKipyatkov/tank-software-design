@@ -1,11 +1,11 @@
 package ru.mipt.bit.platformer;
 
 public abstract class GameObject {
-    private Location orientation;
-    private ObjectGraphic graphic;
+    protected Location location;
+    protected ObjectGraphic graphic;
 
-    public Location getOrientation() {
-        return orientation;
+    public Location getLocation() {
+        return location;
     }
 
     public ObjectGraphic getGraphic() {

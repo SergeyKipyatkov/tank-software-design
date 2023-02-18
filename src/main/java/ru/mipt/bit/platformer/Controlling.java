@@ -11,8 +11,8 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 public class Controlling {
 
     private static final float MOVEMENT_SPEED = 0.4f;
-    private float movementProgress;
-    private final Tank tank;
+    public float movementProgress;
+    public Tank tank;
 
     public Controlling(Tank tank) {
         this.tank = tank;

@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.mipt.bit.platformer.GameObject;
-import ru.mipt.bit.platformer.ObjectGraphic;
 
 import java.util.NoSuchElementException;
 
@@ -77,7 +76,7 @@ public final class GdxGameUtils {
         float regionOriginY = regionHeight / 2f;
         TextureRegion objectRegion = gameObject.getGraphic().getTextureRegion();
         Rectangle objectRectangle = gameObject.getGraphic().getRectangle();
-        batch.draw(objectRegion, objectRectangle.x, objectRectangle.y, regionOriginX, regionOriginY, regionWidth, regionHeight, 1f, 1f, gameObject.getOrientation().getRotation());
+        batch.draw(objectRegion, objectRectangle.x, objectRectangle.y, regionOriginX, regionOriginY, regionWidth, regionHeight, 1f, 1f, gameObject.getLocation().getRotation());
     }
 
     public static Rectangle createBoundingRectangle(TextureRegion region) {
