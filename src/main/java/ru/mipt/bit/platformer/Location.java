@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 public class Location {
 
     public GridPoint2 position;
@@ -17,6 +19,10 @@ public class Location {
     public Location(GridPoint2 position){
         this.rotation = 0f;
         this.position = position;
+    }
+    public Location(){
+        this.rotation = 0f;
+        this.position = new GridPoint2(random(10), random(8));
     }
 
     public GridPoint2 getPosition() {

@@ -7,8 +7,15 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.util.GdxGameUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static com.badlogic.gdx.math.MathUtils.random;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
@@ -16,20 +23,37 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private Tank player;
-    private Tree tree;
+    private ArrayList<Tree> trees = new ArrayList<>();
     private Controlling playerControl;
-
+    private int treesCount;
+    private String mapPathForParser;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         field = new Field(batch,"level.tmx");
 
-        player = new Tank(new GridPoint2(1,1), 0f, "images/tank_blue.png");
-        tree = new Tree(new GridPoint2(1,3));
-        playerControl = new Controlling(player);
+        if (mapPathForParser == null) {
+            player = new Tank();
+            GenerateTrees(5);
+        } else {
+            try {
+                parser(mapPathForParser);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-        moveRectangleAtTileCenter(field.getGroundLayer(), tree.getGraphic().getRectangle(), tree.getLocation().getPosition());
+    public void GenerateTrees(int treesCount){
+        this.treesCount = treesCount;
+        int xRandom, yRandom;
+        for(int i = 0; i < treesCount; i++){
+            xRandom = random(5);
+            yRandom = random(5);
+            trees.add(new Tree(new GridPoint2(xRandom, yRandom)));
+            moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(i).getGraphic().getRectangle(), trees.get(i).location.getPosition());
+        }
     }
 
     @Override
@@ -47,8 +71,9 @@ public class GameDesktopLauncher implements ApplicationListener {
         drawTextureRegionUnscaled(batch, player);
 
         // render tree obstacle
-        drawTextureRegionUnscaled(batch, tree);
-
+        for(int i = 0; i < treesCount; i++) {
+            drawTextureRegionUnscaled(batch, trees.get(i));
+        }
         // submit all drawing requests
         batch.end();
     }
@@ -71,7 +96,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        tree.getGraphic().getTexture().dispose();
+        for(int i = 0; i < treesCount; i++){
+            trees.get(i).getGraphic().getTexture().dispose();
+        }
         player.getGraphic().getTexture().dispose();
         field.getLevel().dispose();
         batch.dispose();
@@ -80,6 +107,28 @@ public class GameDesktopLauncher implements ApplicationListener {
     private void cleanScreen(){
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    public void parser(String filePath) throws IOException {
+        File file = new File(filePath);
+        Scanner scanner = new Scanner(file);
+        ArrayList<String> chars= new ArrayList<>();
+        int treeCounter = 0;
+        while (scanner.hasNext()) {
+            chars.add(scanner.nextLine());
+        }
+        for(int i = chars.size() - 1; i >= 0; i--) {
+            for (int j = 0; j < chars.get(i).length(); j++) {
+                if (chars.get(i).charAt(j) == 'X') {
+                    player = new Tank(new GridPoint2(j, chars.size() - i - 1));
+                }
+                if (chars.get(i).charAt(j) == 'T') {
+                    trees.add(new Tree(new GridPoint2(j, chars.size() - i - 1)));
+                    moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(treeCounter).getGraphic().getRectangle(), trees.get(treeCounter).location.getPosition());
+                    treeCounter++;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
