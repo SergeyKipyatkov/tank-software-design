@@ -36,7 +36,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         if (mapPathForParser == null) {
             player = new Tank();
             playerControl = new Controlling(player);
-            GenerateTrees(5);
+            GenerateTrees(79);
         } else {
             try {
                 parser(mapPathForParser);
@@ -53,7 +53,7 @@ public class GameDesktopLauncher implements ApplicationListener {
             do {
                 xRandom = random(10);
                 yRandom = random(8);
-            }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)));
+            }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)) || i > 79);
             trees.add(new Tree(new GridPoint2(xRandom, yRandom)));
             moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(i).getGraphic().getRectangle(), trees.get(i).location.getPosition());
         }
