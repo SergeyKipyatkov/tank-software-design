@@ -51,7 +51,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         int xRandom, yRandom;
         for(int i = 0; i < treesCount; i++){
             do {
-                xRandom = random(10);
+                xRandom = random(9);
                 yRandom = random(8);
             }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)) || i > 79);
             trees.add(new Tree(new GridPoint2(xRandom, yRandom)));
