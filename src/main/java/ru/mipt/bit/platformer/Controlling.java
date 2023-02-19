@@ -23,7 +23,7 @@ public class Controlling {
     public void Control(Input input, TileMovement tileMovement) {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-        movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
+        this.movementProgress = continueProgress(this.movementProgress, deltaTime, MOVEMENT_SPEED);
         tileMovement.moveRectangleBetweenTileCenters(this.tank.graphic.getRectangle(), this.tank.getLocation().getPosition(), this.tank.destinationPosition, this.movementProgress);
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
