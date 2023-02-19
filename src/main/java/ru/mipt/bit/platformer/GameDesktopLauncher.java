@@ -50,8 +50,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         this.treesCount = treesCount;
         int xRandom, yRandom;
         for(int i = 0; i < treesCount; i++){
-            xRandom = random(5);
-            yRandom = random(5);
+            do {
+                xRandom = random(10);
+                yRandom = random(8);
+            }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)));
             trees.add(new Tree(new GridPoint2(xRandom, yRandom)));
             moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(i).getGraphic().getRectangle(), trees.get(i).location.getPosition());
         }
