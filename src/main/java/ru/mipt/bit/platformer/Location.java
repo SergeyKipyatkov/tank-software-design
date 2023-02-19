@@ -22,7 +22,7 @@ public class Location {
     }
     public Location(){
         this.rotation = 0f;
-        this.position = new GridPoint2(random(9), random(8));
+        this.position = new GridPoint2(random(1, 9), random(1, 8));
     }
 
     public GridPoint2 getPosition() {
