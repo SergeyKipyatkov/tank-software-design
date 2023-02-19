@@ -55,7 +55,7 @@ public class GameDesktopLauncher implements ApplicationListener {
                 xRandom = random(9);
                 yRandom = random(7);
             }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)));
-            trees.add(new Tree(new GridPoint2(xRandom, yRandom)));
+            trees.add(new Tree(xRandom, yRandom));
             moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(i).getGraphic().getRectangle(), trees.get(i).location.getPosition());
         }
     }
@@ -124,11 +124,11 @@ public class GameDesktopLauncher implements ApplicationListener {
         for(int i = chars.size() - 1; i >= 0; i--) {
             for (int j = 0; j < chars.get(i).length(); j++) {
                 if (chars.get(i).charAt(j) == 'X') {
-                    player = new Tank(new GridPoint2(j, chars.size() - i - 1));
+                    player = new Tank(j, chars.size() - i - 1);
                     playerControl = new Controlling(player);
                 }
                 if (chars.get(i).charAt(j) == 'T') {
-                    trees.add(new Tree(new GridPoint2(j, chars.size() - i - 1)));
+                    trees.add(new Tree(j, chars.size() - i - 1));
                     moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(treeCounter).getGraphic().getRectangle(), trees.get(treeCounter).location.getPosition());
                     treeCounter++;
                 }

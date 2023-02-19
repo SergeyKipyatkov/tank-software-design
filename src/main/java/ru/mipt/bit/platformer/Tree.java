@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.GridPoint2;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class Tree extends GameObject{
-    private final String texturePath = "images/greenTree.png";
+    private static final String texturePath = "images/greenTree.png";
 
-    public Tree(GridPoint2 position){
-        this.location = new Location(position);
-        obstaclePosition.add(position);
+    public Tree(int x, int y){
+        this.location = new Location(x, y);
+        obstaclePosition.add(location.getPosition());
         this.graphic = new ObjectGraphic(texturePath);
     }
 }

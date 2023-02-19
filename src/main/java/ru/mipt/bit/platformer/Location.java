@@ -12,13 +12,13 @@ public class Location {
     private float rotation;
 
 
-    public Location(GridPoint2 position, float rotation){
+    public Location(int x, int y, float rotation){
         this.rotation = rotation;
-        this.position = position;
+        this.position = new GridPoint2(x,y);
     }
-    public Location(GridPoint2 position){
+    public Location(int x, int y){
         this.rotation = 0f;
-        this.position = position;
+        this.position = new GridPoint2(x, y);
     }
     public Location(){
         this.rotation = 0f;

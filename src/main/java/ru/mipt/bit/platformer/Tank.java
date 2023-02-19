@@ -5,20 +5,21 @@ import com.badlogic.gdx.math.GridPoint2;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class Tank extends GameObject {
+    private static final String texturePath = "images/tank_blue.png";
     public GridPoint2 destinationPosition;
 
     public Tank(){
         this.location = new Location();
         this.destinationPosition = new GridPoint2(this.location.getPosition());
         obstaclePosition.add(this.location.getPosition());
-        this.graphic = new ObjectGraphic("images/tank_blue.png");
+        this.graphic = new ObjectGraphic(texturePath);
     }
 
-    public Tank(GridPoint2 position){
-        obstaclePosition.add(position);
-        this.destinationPosition = new GridPoint2(position);
-        this.location = new Location(position, 0f);
-        this.graphic = new ObjectGraphic("images/tank_blue.png");
+    public Tank(int x, int y){
+        obstaclePosition.add(new GridPoint2(x, y));
+        this.destinationPosition = new GridPoint2(x,y);
+        this.location = new Location(x,y, 0f);
+        this.graphic = new ObjectGraphic(texturePath);
     }
 
     public void Move(Direction direction){
