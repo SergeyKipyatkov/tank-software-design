@@ -24,6 +24,7 @@ public class Controlling {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
+        tileMovement.moveRectangleBetweenTileCenters(this.tank.graphic.getRectangle(), this.tank.getLocation().getPosition(), this.tank.destinationPosition, this.movementProgress);
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
         }
@@ -42,7 +43,7 @@ public class Controlling {
                 this.movementProgress = this.tank.Move(Direction.RIGHT);
             }
         }
-        tileMovement.moveRectangleBetweenTileCenters(tank.graphic.getRectangle(), tank.getLocation().getPosition(), tank.destinationPosition, movementProgress);
+
 
     }
 
