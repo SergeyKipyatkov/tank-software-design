@@ -26,7 +26,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private final ArrayList<Tree> trees = new ArrayList<>();
     private Controlling playerControl;
     private int treesCount;
-    private String mapPathForParser;
+    private static final String mapPathForParser = "resources/level_structure.txt";
 
     @Override
     public void create() {
