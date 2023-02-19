@@ -11,12 +11,12 @@ public class Tank extends GameObject {
         this.graphic = new ObjectGraphic(texturePath);
     }
 
-    public void Move(Direction direction){
+    public float Move(Direction direction){
         if (Location.IsPositionFree(this.location.calculatePosition(direction))){
             this.destinationPosition.add(direction.getPosition());
             this.location.setRotation(direction.getLocation().getRotation());
         }
+        return 0f;
     }
-
 }
 

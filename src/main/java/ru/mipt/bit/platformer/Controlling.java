@@ -22,29 +22,28 @@ public class Controlling {
 
     public void Control(Input input, TileMovement tileMovement) {
         float deltaTime = Gdx.graphics.getDeltaTime();
-        if (isEqual(movementProgress, 1f)) {
-            if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-                this.movementProgress = 0f;
-                this.tank.Move(Direction.UP);
-            }
-            if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-                this.movementProgress = 0f;
-                this.tank.Move(Direction.LEFT);
-            }
-            if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-                this.movementProgress = 0f;
-                this.tank.Move(Direction.DOWN);
-            }
-            if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-                this.movementProgress = 0f;
-                this.tank.Move(Direction.RIGHT);
-            }
-        }
+
         tileMovement.moveRectangleBetweenTileCenters(tank.graphic.getRectangle(), tank.getLocation().getPosition(), tank.destinationPosition, movementProgress);
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
         }
+
+        if (isEqual(movementProgress, 1f)) {
+            if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
+                this.movementProgress = this.tank.Move(Direction.UP);
+            }
+            if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
+                this.movementProgress = this.tank.Move(Direction.LEFT);
+            }
+            if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
+                this.movementProgress = this.tank.Move(Direction.DOWN);
+            }
+            if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
+                this.movementProgress = this.tank.Move(Direction.RIGHT);
+            }
+        }
+
     }
 
 }
