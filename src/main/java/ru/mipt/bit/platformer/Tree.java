@@ -2,10 +2,12 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-public class StaticObstacle extends GameObject{
+public class Tree extends GameObject{
 
-    public StaticObstacle(GridPoint2 position, String texturePath){
+    public Tree(GridPoint2 position){
         this.location = new Location(position);
+        obstaclePosition.add(position);
+        String texturePath = "images/greenTree.png";
         this.graphic = new ObjectGraphic(texturePath);
     }
 }

@@ -5,10 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.util.TileMovement;
 
-import javax.sound.midi.Soundbank;
-
-import java.net.SocketOption;
-
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
@@ -31,6 +27,7 @@ public class Controlling {
         this.movementProgress = continueProgress(this.movementProgress, deltaTime, MOVEMENT_SPEED);
         Rectangle rectangle = tank.graphic.getRectangle();
         tileMovement.moveRectangleBetweenTileCenters(rectangle, tank.getLocation().getPosition(), tank.destinationPosition, this.movementProgress);
+        
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
         }

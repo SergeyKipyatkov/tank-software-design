@@ -16,7 +16,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private Tank player;
-    private StaticObstacle tree;
+    private Tree tree;
     private Controlling playerControl;
 
 
@@ -26,10 +26,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         field = new Field(batch,"level.tmx");
 
         player = new Tank(new GridPoint2(1,1), 0f, "images/tank_blue.png");
-        tree = new StaticObstacle(new GridPoint2(1,3), "images/greenTree.png");
+        tree = new Tree(new GridPoint2(1,3));
         playerControl = new Controlling(player);
 
-        moveRectangleAtTileCenter(field.getGroundLayer(), tree.graphic.getRectangle(), tree.location.getPosition());
+        moveRectangleAtTileCenter(field.getGroundLayer(), tree.getGraphic().getRectangle(), tree.getLocation().getPosition());
     }
 
     @Override
@@ -71,8 +71,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void dispose() {
         // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        tree.graphic.getTexture().dispose();
-        player.graphic.getTexture().dispose();
+        tree.getGraphic().getTexture().dispose();
+        player.getGraphic().getTexture().dispose();
         field.getLevel().dispose();
         batch.dispose();
     }
