@@ -27,7 +27,7 @@ public class Controlling {
         this.movementProgress = continueProgress(this.movementProgress, deltaTime, MOVEMENT_SPEED);
         Rectangle rectangle = tank.graphic.getRectangle();
         tileMovement.moveRectangleBetweenTileCenters(rectangle, tank.getLocation().getPosition(), tank.destinationPosition, this.movementProgress);
-        
+
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
         }
@@ -39,15 +39,15 @@ public class Controlling {
             this.tank.Move(Direction.UP);
             this.movementProgress = 0f;
         }
-        if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
+        else if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
             this.tank.Move(Direction.LEFT);
             this.movementProgress = 0f;
         }
-        if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
+        else if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
             this.tank.Move(Direction.DOWN);
             this.movementProgress = 0f;
         }
-        if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
+        else if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
             this.tank.Move(Direction.RIGHT);
             this.movementProgress = 0f;
         }
