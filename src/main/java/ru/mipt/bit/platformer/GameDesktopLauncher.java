@@ -23,7 +23,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch batch;
 
     private Tank player;
-    private ArrayList<Tree> trees = new ArrayList<>();
+    private final ArrayList<Tree> trees = new ArrayList<>();
     private Controlling playerControl;
     private int treesCount;
     private String mapPathForParser;
