@@ -27,6 +27,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         player = new Tank(new GridPoint2(1,1), 0f, "images/tank_blue.png");
         tree = new StaticObstacle(new GridPoint2(1,3), "images/greenTree.png");
+        playerControl = new Controlling(player);
 
         moveRectangleAtTileCenter(field.getGroundLayer(), tree.graphic.getRectangle(), tree.location.getPosition());
     }
@@ -35,10 +36,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void render() {
         cleanScreen();
 
-        playerControl = new Controlling(player);
-        playerControl.Control(Gdx.input, field.getTileMovement());
-
         field.getLevelRenderer().render();
+
+        playerControl.Control(Gdx.input, field.getTileMovement());
 
         // start recording all drawing commands
         batch.begin();

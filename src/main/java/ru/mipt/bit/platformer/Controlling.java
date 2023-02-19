@@ -5,6 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.util.TileMovement;
 
+import javax.sound.midi.Soundbank;
+
+import java.net.SocketOption;
+
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
@@ -31,27 +35,24 @@ public class Controlling {
             tank.location.position.set(tank.destinationPosition);
         }
 
+        if(!isEqual(movementProgress, 1f))
+            return;
 
-        if (isEqual(movementProgress, 1f)) {
-            if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-                this.tank.Move(Direction.UP);
-                this.movementProgress = 0f;
-            }
-            if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-                this.tank.Move(Direction.LEFT);
-                this.movementProgress = 0f;
-            }
-            if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-                this.tank.Move(Direction.DOWN);
-                this.movementProgress = 0f;
-            }
-            if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-                this.tank.Move(Direction.RIGHT);
-                this.movementProgress = 0f;
-            }
+        if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
+            this.tank.Move(Direction.UP);
+            this.movementProgress = 0f;
         }
-
-
+        if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
+            this.tank.Move(Direction.LEFT);
+            this.movementProgress = 0f;
+        }
+        if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
+            this.tank.Move(Direction.DOWN);
+            this.movementProgress = 0f;
+        }
+        if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
+            this.tank.Move(Direction.RIGHT);
+            this.movementProgress = 0f;
+        }
     }
-
 }
