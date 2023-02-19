@@ -24,16 +24,20 @@ public class Controlling {
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (isEqual(movementProgress, 1f)) {
             if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-                this.tank.Move(Direction.UP, this.movementProgress);
+                this.movementProgress = 0f;
+                this.tank.Move(Direction.UP);
             }
             if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-                this.tank.Move(Direction.LEFT, this.movementProgress);
+                this.movementProgress = 0f;
+                this.tank.Move(Direction.LEFT);
             }
             if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-                this.tank.Move(Direction.DOWN, this.movementProgress);
+                this.movementProgress = 0f;
+                this.tank.Move(Direction.DOWN);
             }
             if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-                this.tank.Move(Direction.RIGHT, this.movementProgress);
+                this.movementProgress = 0f;
+                this.tank.Move(Direction.RIGHT);
             }
         }
         tileMovement.moveRectangleBetweenTileCenters(tank.graphic.getRectangle(), tank.getLocation().getPosition(), tank.destinationPosition, movementProgress);
