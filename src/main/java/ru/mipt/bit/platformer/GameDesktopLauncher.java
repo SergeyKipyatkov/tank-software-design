@@ -35,6 +35,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         if (mapPathForParser == null) {
             player = new Tank();
+            playerControl = new Controlling(player);
             GenerateTrees(5);
         } else {
             try {
@@ -121,6 +122,7 @@ public class GameDesktopLauncher implements ApplicationListener {
             for (int j = 0; j < chars.get(i).length(); j++) {
                 if (chars.get(i).charAt(j) == 'X') {
                     player = new Tank(new GridPoint2(j, chars.size() - i - 1));
+                    playerControl = new Controlling(player);
                 }
                 if (chars.get(i).charAt(j) == 'T') {
                     trees.add(new Tree(new GridPoint2(j, chars.size() - i - 1)));
