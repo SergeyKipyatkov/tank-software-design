@@ -26,7 +26,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private final ArrayList<Tree> trees = new ArrayList<>();
     private Controlling playerControl;
     private int treesCount;
-    private static final String mapPathForParser = "resources/level_structure.txt";
+    private static final String mapPathForParser = "src/main/resources/level_structure.txt";
 
     @Override
     public void create() {
@@ -133,6 +133,7 @@ public class GameDesktopLauncher implements ApplicationListener {
                 }
             }
         }
+        this.treesCount = treeCounter;
     }
 
     public static void main(String[] args) {
