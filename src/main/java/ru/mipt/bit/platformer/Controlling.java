@@ -2,6 +2,7 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.util.TileMovement;
 
 import static com.badlogic.gdx.Input.Keys.*;
@@ -24,23 +25,29 @@ public class Controlling {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         this.movementProgress = continueProgress(this.movementProgress, deltaTime, MOVEMENT_SPEED);
-        tileMovement.moveRectangleBetweenTileCenters(this.tank.graphic.getRectangle(), this.tank.getLocation().getPosition(), this.tank.destinationPosition, this.movementProgress);
+        Rectangle rectangle = tank.graphic.getRectangle();
+        tileMovement.moveRectangleBetweenTileCenters(rectangle, tank.getLocation().getPosition(), tank.destinationPosition, this.movementProgress);
         if (isEqual(this.movementProgress, 1f)){
             tank.location.position.set(tank.destinationPosition);
         }
 
+
         if (isEqual(movementProgress, 1f)) {
             if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-                this.movementProgress = this.tank.Move(Direction.UP);
+                this.tank.Move(Direction.UP);
+                this.movementProgress = 0f;
             }
             if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-                this.movementProgress = this.tank.Move(Direction.LEFT);
+                this.tank.Move(Direction.LEFT);
+                this.movementProgress = 0f;
             }
             if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-                this.movementProgress = this.tank.Move(Direction.DOWN);
+                this.tank.Move(Direction.DOWN);
+                this.movementProgress = 0f;
             }
             if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-                this.movementProgress = this.tank.Move(Direction.RIGHT);
+                this.tank.Move(Direction.RIGHT);
+                this.movementProgress = 0f;
             }
         }
 
