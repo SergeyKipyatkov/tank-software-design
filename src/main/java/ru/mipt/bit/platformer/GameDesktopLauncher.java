@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.util.GdxGameUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,25 +19,34 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class GameDesktopLauncher implements ApplicationListener {
+
     private Field field;
     private Batch batch;
-
     private Tank player;
     private final ArrayList<Tree> trees = new ArrayList<>();
     private Controlling playerControl;
-    private int treesCount;
+    private int randomTreesCount;
     private String mapPathForParser;
-//    = "src/main/resources/level_structure.txt";
+
+    public void setMapPathForParser(String mapPathForParser) {
+        this.mapPathForParser = mapPathForParser;
+    }
+
+    public void setRandomTreesCount(int randomTreesCount) {
+        this.randomTreesCount = randomTreesCount;
+    }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        field = new Field(batch,"level.tmx");
+        field = new Field(batch, "level.tmx");
+        chooseCreationMode();
+    }
 
+    private void chooseCreationMode() {
+        // setMapPathForParser("src/main/resources/level_structure.txt");
         if (mapPathForParser == null) {
-            player = new Tank();
-            playerControl = new Controlling(player);
-            GenerateTrees(25);
+            CreateRandomObjects();
         } else {
             try {
                 parser(mapPathForParser);
@@ -47,16 +56,23 @@ public class GameDesktopLauncher implements ApplicationListener {
         }
     }
 
-    public void GenerateTrees(int treesCount){
-        this.treesCount = treesCount;
+    private void CreateRandomObjects() {
+        player = new Tank();
+        playerControl = new Controlling(player);
+        GenerateTrees();
+    }
+
+    public void GenerateTrees() {
+        setRandomTreesCount(25);
         int xRandom, yRandom;
-        for(int i = 0; i < treesCount; i++){
+        for (int i = 0; i < randomTreesCount; i++) {
             do {
                 xRandom = random(9);
                 yRandom = random(7);
-            }while(GameObject.obstaclePosition.contains(new GridPoint2(xRandom,yRandom)));
+            } while (GameObject.obstaclePosition.contains(new GridPoint2(xRandom, yRandom)));
             trees.add(new Tree(xRandom, yRandom));
-            moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(i).getGraphic().getRectangle(), trees.get(i).location.getPosition());
+            Rectangle treeRectangle = trees.get(i).getGraphic().getRectangle();
+            moveRectangleAtTileCenter(field.getGroundLayer(), treeRectangle, trees.get(i).location.getPosition());
         }
     }
 
@@ -68,17 +84,14 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         playerControl.Control(Gdx.input, field.getTileMovement());
 
-        // start recording all drawing commands
         batch.begin();
 
-        // render player
         drawTextureRegionUnscaled(batch, player);
 
-        // render tree obstacle
-        for(int i = 0; i < treesCount; i++) {
+        for (int i = 0; i < randomTreesCount; i++) {
             drawTextureRegionUnscaled(batch, trees.get(i));
         }
-        // submit all drawing requests
+
         batch.end();
     }
 
@@ -99,8 +112,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void dispose() {
-        // dispose of all the native resources (classes which implement com.badlogic.gdx.utils.Disposable)
-        for(int i = 0; i < treesCount; i++){
+        for (int i = 0; i < randomTreesCount; i++) {
             trees.get(i).getGraphic().getTexture().dispose();
         }
         player.getGraphic().getTexture().dispose();
@@ -108,7 +120,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         batch.dispose();
     }
 
-    private void cleanScreen(){
+    private void cleanScreen() {
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
     }
@@ -116,12 +128,12 @@ public class GameDesktopLauncher implements ApplicationListener {
     public void parser(String filePath) throws IOException {
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
-        ArrayList<String> chars= new ArrayList<>();
+        ArrayList<String> chars = new ArrayList<>();
         int treeCounter = 0;
         while (scanner.hasNext()) {
             chars.add(scanner.nextLine());
         }
-        for(int i = chars.size() - 1; i >= 0; i--) {
+        for (int i = chars.size() - 1; i >= 0; i--) {
             for (int j = 0; j < chars.get(i).length(); j++) {
                 if (chars.get(i).charAt(j) == 'X') {
                     player = new Tank(j, chars.size() - i - 1);
@@ -129,17 +141,18 @@ public class GameDesktopLauncher implements ApplicationListener {
                 }
                 if (chars.get(i).charAt(j) == 'T') {
                     trees.add(new Tree(j, chars.size() - i - 1));
-                    moveRectangleAtTileCenter(field.getGroundLayer(), trees.get(treeCounter).getGraphic().getRectangle(), trees.get(treeCounter).location.getPosition());
+                    Rectangle treeRectangle = trees.get(treeCounter).getGraphic().getRectangle();
+                    GridPoint2 treePosition = trees.get(treeCounter).location.getPosition();
+                    moveRectangleAtTileCenter(field.getGroundLayer(), treeRectangle, treePosition);
                     treeCounter++;
                 }
             }
         }
-        this.treesCount = treeCounter;
+        this.randomTreesCount = treeCounter;
     }
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        // level width: 10 tiles x 128px, height: 8 tiles x 128px
         config.setWindowedMode(1280, 1024);
         new Lwjgl3Application(new GameDesktopLauncher(), config);
     }

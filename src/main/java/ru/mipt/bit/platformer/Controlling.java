@@ -12,9 +12,10 @@ import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
 
 public class Controlling {
 
-    private static final float MOVEMENT_SPEED = 0.4f;
     public float movementProgress;
     public Tank tank;
+
+    private static final float MOVEMENT_SPEED = 0.4f;
 
     public Controlling(Tank tank) {
         this.tank = tank;
@@ -24,32 +25,32 @@ public class Controlling {
     public void Control(Input input, TileMovement tileMovement) {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-        this.movementProgress = continueProgress(this.movementProgress, deltaTime, MOVEMENT_SPEED);
-        Rectangle rectangle = tank.graphic.getRectangle();
-        tileMovement.moveRectangleBetweenTileCenters(rectangle, tank.getLocation().getPosition(), tank.destinationPosition, this.movementProgress);
+        movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
+        tileMovement.moveRectangleBetweenTileCenters(tank, movementProgress);
 
-        if (isEqual(this.movementProgress, 1f)){
+        if (isEqual(movementProgress, 1f)) {
             tank.location.position.set(tank.destinationPosition);
         }
 
-        if(!isEqual(movementProgress, 1f))
+        if (!isEqual(movementProgress, 1f))
             return;
 
+        isKeyPressed(input);
+    }
+
+    private void isKeyPressed(Input input) {
         if (input.isKeyPressed(UP) || input.isKeyPressed(W)) {
-            this.tank.Move(Direction.UP);
-            this.movementProgress = 0f;
-        }
-        else if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
-            this.tank.Move(Direction.LEFT);
-            this.movementProgress = 0f;
-        }
-        else if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
-            this.tank.Move(Direction.DOWN);
-            this.movementProgress = 0f;
-        }
-        else if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
-            this.tank.Move(Direction.RIGHT);
-            this.movementProgress = 0f;
+            tank.Move(Direction.UP);
+            movementProgress = 0f;
+        } else if (input.isKeyPressed(LEFT) || input.isKeyPressed(A)) {
+            tank.Move(Direction.LEFT);
+            movementProgress = 0f;
+        } else if (input.isKeyPressed(DOWN) || input.isKeyPressed(S)) {
+            tank.Move(Direction.DOWN);
+            movementProgress = 0f;
+        } else if (input.isKeyPressed(RIGHT) || input.isKeyPressed(D)) {
+            tank.Move(Direction.RIGHT);
+            movementProgress = 0f;
         }
     }
 }

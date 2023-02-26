@@ -2,8 +2,6 @@ package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-import java.util.ArrayList;
-
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class Location {
@@ -11,18 +9,19 @@ public class Location {
     public GridPoint2 position;
     private float rotation;
 
-
-    public Location(int x, int y, float rotation){
+    public Location(int x, int y, float rotation) {
         this.rotation = rotation;
-        this.position = new GridPoint2(x,y);
+        position = new GridPoint2(x, y);
     }
-    public Location(int x, int y){
-        this.rotation = 0f;
-        this.position = new GridPoint2(x, y);
+
+    public Location(int x, int y) {
+        rotation = 0f;
+        position = new GridPoint2(x, y);
     }
-    public Location(){
-        this.rotation = 0f;
-        this.position = new GridPoint2(random( 9), random(7));
+
+    public Location() {
+        rotation = 0f;
+        position = new GridPoint2(random(9), random(7));
     }
 
     public GridPoint2 getPosition() {
@@ -37,13 +36,8 @@ public class Location {
         this.rotation = rotation;
     }
 
-    public GridPoint2 calculatePosition(Direction direction){
-        return new GridPoint2(this.position.x + direction.getLocation().position.x,
-                this.position.y + direction.getLocation().position.y);
-    }
-
-    public void updateLocation(Direction direction){
-        this.position = calculatePosition(direction);
-        this.rotation = direction.getLocation().getRotation();
+    public GridPoint2 calculatePosition(Direction direction) {
+        return new GridPoint2(position.x + direction.getLocation().position.x,
+                position.y + direction.getLocation().position.y);
     }
 }

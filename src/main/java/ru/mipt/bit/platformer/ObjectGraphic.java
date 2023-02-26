@@ -11,10 +11,10 @@ public class ObjectGraphic {
     private final TextureRegion textureRegion;
     private final Rectangle rectangle;
 
-    public ObjectGraphic(String texturePath){
-        this.texture = new Texture(texturePath);
-        this.textureRegion = new TextureRegion(texture);
-        this.rectangle = createBoundingRectangle(textureRegion);
+    public ObjectGraphic(String texturePath) {
+        texture = new Texture(texturePath);
+        textureRegion = new TextureRegion(texture);
+        rectangle = createBoundingRectangle(textureRegion);
     }
 
     public Rectangle getRectangle() {

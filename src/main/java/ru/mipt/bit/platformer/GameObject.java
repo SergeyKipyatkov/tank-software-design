@@ -1,8 +1,6 @@
 package ru.mipt.bit.platformer;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
@@ -19,7 +17,7 @@ public abstract class GameObject {
         return graphic;
     }
 
-    protected static boolean IsPositionFree(GridPoint2 position){
+    protected static boolean IsPositionFree(GridPoint2 position) {
         return !obstaclePosition.contains(position);
     }
 

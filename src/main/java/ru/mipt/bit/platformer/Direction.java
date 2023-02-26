@@ -1,6 +1,7 @@
 package ru.mipt.bit.platformer;
 
 import com.badlogic.gdx.math.GridPoint2;
+
 enum Direction{
     UP(new Location(0, 1, 90f)),
     DOWN(new Location(0, -1, -90f)),
@@ -17,6 +18,6 @@ enum Direction{
         return location;
     }
     public GridPoint2 getPosition(){
-        return this.location.position;
+        return location.position;
     }
 }
